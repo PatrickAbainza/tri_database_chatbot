@@ -1,0 +1,39 @@
+# Configuration file for the pre-commit framework (https://pre-commit.com).
+# Defines hooks that run automatically before each Git commit to ensure code quality and consistency.
+# Hooks are managed per repository.
+
+# See https://pre-commit.com/hooks.html for more available hooks.
+repos:
+  # Repository containing a collection of general-purpose pre-commit hooks.
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0 # Pinning to a specific tag ensures consistent behavior.
+    hooks:
+      # Checks YAML files for parseable syntax.
+      - id: check-yaml
+      # Ensures files end with a single newline and no trailing whitespace.
+      - id: end-of-file-fixer
+      # Trims trailing whitespace from lines.
+      - id: trailing-whitespace
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  # Repository for Ruff hooks (https://github.com/astral-sh/ruff) - a fast Python linter and formatter.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # The specific Ruff version used is determined by the project's environment (e.g., pyproject.toml),
+    # but the hook definition itself is pinned to a version.
+    rev: v0.5.0
+    hooks:
+      # Run the linter.
+      # Runs the Ruff linter.
+      - id: ruff
+        # --fix: Attempts to automatically fix linting errors.
+        # --exit-non-zero-on-fix: Ensures the hook fails if fixes were applied, prompting a re-stage.
+        args: [--fix, --exit-non-zero-on-fix]
+        # Regex to target only Python files within the 'python-uv' template directory.
+        # This prevents the hook from running on files in other templates (e.g., nodejs).
+        files: ^templates/python-uv/.*\.py$
+      # Run the formatter.
+      # Runs the Ruff code formatter.
+      - id: ruff-format
+        # Regex to target only Python files within the 'python-uv' template directory.
+        files: ^templates/python-uv/.*\.py$

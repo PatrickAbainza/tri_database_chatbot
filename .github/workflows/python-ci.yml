@@ -1,0 +1,70 @@
+# Name of the GitHub Actions workflow, displayed on the Actions tab.
+name: Python Template CI
+
+# Defines the events that trigger this workflow.
+on:
+  # Trigger on pushes to the 'main' branch.
+  push:
+    branches: [main]
+    # Only run if changes occur within the python-uv template or this workflow file itself.
+    paths:
+      - "templates/python-uv/**"
+      - ".github/workflows/python-ci.yml"
+  # Trigger on pull requests targeting the 'main' branch.
+  pull_request:
+    branches: [main]
+    # Only run if changes occur within the python-uv template or this workflow file itself.
+    paths:
+      - "templates/python-uv/**"
+      - ".github/workflows/python-ci.yml"
+
+# Defines the jobs to be executed in the workflow.
+jobs:
+  # Defines a job named 'test'.
+  test:
+    # Specifies the runner environment (virtual machine) for the job.
+    runs-on: ubuntu-latest
+    # Sets default settings for all 'run' steps within this job.
+    defaults:
+      run:
+        # Executes all subsequent 'run' steps within the specified directory.
+        # Crucial for ensuring commands like 'uv' and 'pytest' operate on the correct project files.
+        working-directory: ./templates/python-uv
+    # Defines the sequence of tasks (steps) to be executed in the 'test' job.
+    steps:
+      # Step 1: Check out the repository code.
+      # Uses the official 'checkout' action (version 4).
+      - uses: actions/checkout@v4
+
+      # Step 2: Set up the specified Python version.
+      # Uses the official 'setup-python' action (version 5).
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          # Ensure this version matches the project's requirements (see pyproject.toml).
+          python-version: "3.11"
+      # Step 3: Install 'uv', the fast Python package installer and resolver used in this template.
+      - name: Install uv
+        # Downloads and executes the official uv installation script.
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+        shell: bash # Specifies the shell to use for the run command.
+      # Step 4: Add the 'uv' installation directory to the GitHub Actions runner's PATH.
+      # This makes the 'uv' command available in subsequent steps.
+      - name: Add uv to PATH
+        run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        shell: bash
+      # Step 5: Install project dependencies using 'uv'.
+      # 'uv sync --dev' installs both main dependencies and development dependencies ([dependency-groups.dev] in pyproject.toml).
+      # It uses the uv.lock file for deterministic installs if present.
+      - name: Install dependencies
+        run: uv sync --dev
+        shell: bash
+      # Step 6: Scan for vulnerabilities using pip-audit via 'uv'.
+      - name: Scan for vulnerabilities
+        run: uv run pip-audit
+        shell: bash
+      # Step 6: Run the tests using pytest via 'uv'.
+      # 'uv run pytest' executes the pytest command within the environment managed by uv.
+      - name: Run tests
+        run: uv run pytest --cov=src --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=80
+        shell: bash

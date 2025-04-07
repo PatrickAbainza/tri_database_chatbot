@@ -1,0 +1,60 @@
+# Name of the GitHub Actions workflow.
+name: Node.js Template CI
+
+# Defines the events that trigger this workflow.
+on:
+  # Trigger on pushes to the 'main' branch.
+  push:
+    branches: [main]
+    # Only run if changes occur within the nodejs-vitest template or this workflow file.
+    paths:
+      - "templates/nodejs-vitest/**"
+      - ".github/workflows/nodejs-ci.yml"
+  # Trigger on pull requests targeting the 'main' branch.
+  pull_request:
+    branches: [main]
+    # Only run if changes occur within the nodejs-vitest template or this workflow file.
+    paths:
+      - "templates/nodejs-vitest/**"
+      - ".github/workflows/nodejs-ci.yml"
+
+# Defines the jobs to be executed.
+jobs:
+  # Defines a job named 'test'.
+  test:
+    # Specifies the runner environment.
+    runs-on: ubuntu-latest
+    # Sets default settings for 'run' steps in this job.
+    defaults:
+      run:
+        # Executes subsequent 'run' steps within the nodejs-vitest directory.
+        # Ensures commands like 'npm' operate on the correct package.json.
+        working-directory: ./templates/nodejs-vitest
+    # Defines the sequence of tasks (steps).
+    steps:
+      # Step 1: Check out the repository code.
+      - uses: actions/checkout@v4
+
+      # Step 2: Set up the specified Node.js version.
+      # Uses the official 'setup-node' action (version 4).
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          # Specify the Node.js version required by the project.
+          node-version: "20"
+          # Enable caching for npm dependencies to speed up subsequent runs.
+          cache: "npm"
+          # Specify the path to the lock file for more accurate caching.
+          # Important: Ensure this path correctly points to the package-lock.json within the working directory.
+          cache-dependency-path: templates/nodejs-vitest/package-lock.json
+      # Step 3: Install project dependencies using npm.
+      # 'npm ci' performs a clean install based on package-lock.json, ensuring reproducible builds.
+      # It's generally preferred over 'npm install' in CI environments.
+      - name: Install dependencies
+        run: npm ci
+      - name: Scan for vulnerabilities
+        run: npm audit --audit-level=high
+      # Step 4: Run the tests using the script defined in package.json.
+      # 'npm test' executes the command associated with the "test" script (usually 'vitest').
+      - name: Run tests
+        run: npm test
