@@ -43,28 +43,54 @@ jobs:
         with:
           # Ensure this version matches the project's requirements (see pyproject.toml).
           python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "./templates/python-uv/pyproject.toml"
+
       # Step 3: Install 'uv', the fast Python package installer and resolver used in this template.
       - name: Install uv
         # Downloads and executes the official uv installation script.
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
         shell: bash # Specifies the shell to use for the run command.
+
       # Step 4: Add the 'uv' installation directory to the GitHub Actions runner's PATH.
       # This makes the 'uv' command available in subsequent steps.
       - name: Add uv to PATH
         run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
         shell: bash
+
       # Step 5: Install project dependencies using 'uv'.
       # 'uv sync --dev' installs both main dependencies and development dependencies ([dependency-groups.dev] in pyproject.toml).
       # It uses the uv.lock file for deterministic installs if present.
       - name: Install dependencies
-        run: uv sync --dev
+        run: |
+          uv sync --dev
+          uv pip install flake8 black isort mypy pip-audit
         shell: bash
-      # Step 6: Scan for vulnerabilities using pip-audit via 'uv'.
+
+      # Step 6: Run linting and style checks
+      - name: Run linting checks
+        run: |
+          uv run black --check .
+          uv run flake8 .
+          uv run isort --check-only .
+          uv run mypy src tests
+        shell: bash
+
+      # Step 7: Scan for vulnerabilities using pip-audit
       - name: Scan for vulnerabilities
         run: uv run pip-audit
         shell: bash
-      # Step 6: Run the tests using pytest via 'uv'.
+
+      # Step 8: Run the tests using pytest
       # 'uv run pytest' executes the pytest command within the environment managed by uv.
       - name: Run tests
         run: uv run pytest --cov=src --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=80
         shell: bash
+
+      # Step 9: Upload coverage report as artifact
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./templates/python-uv/coverage.xml
+          if-no-files-found: error
