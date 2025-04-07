@@ -1,0 +1,111 @@
+{
+  // --- General Settings ---
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.cache": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/.mypy_cache": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/node_modules": true,
+    "**/.venv": true, // Exclude virtual environments created by uv/venv
+    "**/.env": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/.venv": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.hg/store/**": true,
+    "**/.venv/**": true
+  },
+
+  // --- Testing Settings ---
+  // (Settings related to test discovery, execution, etc.)
+
+  // --- Coverage Settings ---
+  // (Settings for code coverage visualization if using extensions like Coverage Gutters)
+
+  // --- Git Settings ---
+  "git.autofetch": true,
+  "git.confirmSync": false,
+
+  // --- Language Specific Settings ---
+
+  // Python (using Ruff for linting/formatting)
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  },
+  "ruff.lint.args": [],
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  // "python.testing.pytestArgs": [ // Example: Add default pytest args if needed
+  //     "."
+  // ],
+  // Explicitly set the interpreter path for the Python extension.
+  // Assumes 'uv' creates a '.venv' in the 'templates/python-uv' directory.
+  // Adjust if your venv name or location differs.
+  "python.defaultInterpreterPath": "${workspaceFolder}/templates/python-uv/.venv/bin/python",
+  // The autoSearchPaths below is less direct and might not be needed if defaultInterpreterPath works.
+  // "python.analysis.autoSearchPaths": [
+  //     "${workspaceFolder}/templates/python-uv/.venv/lib/python*/site-packages"
+  // ],
+
+  // JavaScript / TypeScript (using Prettier for formatting)
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // Shell Script (using shellcheck and shfmt)
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "shellcheck.executablePath": "/opt/homebrew/bin/shellcheck", // Adjust if shellcheck installed elsewhere
+  "shellformat.executablePath": "/opt/homebrew/bin/shfmt", // Adjust if shfmt installed elsewhere
+
+  // JSON / JSONC
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Markdown
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+
+  // Add other language-specific settings as needed
+}

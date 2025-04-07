@@ -1,0 +1,30 @@
+{
+  "recommendations": [
+    // General
+    "ms-vscode.makefile-tools",
+    "github.vscode-pull-request-github",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    // Docker
+    "ms-azuretools.vscode-docker",
+    // Testing & Coverage
+    "ryanluker.vscode-coverage-gutters",
+    // Python
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.debugpy",
+    "charliermarsh.ruff",
+    "tamasfe.even-better-toml",
+    // Node.js / JavaScript / TypeScript
+    "dbaeumer.vscode-eslint",
+    "vitest.explorer",
+    "yoavbls.pretty-ts-errors",
+    // Shell Script
+    "timonwong.shellcheck",
+    "foxundermoon.shell-format",
+    // Optional: Dependency Graph Visualization
+    "tintinweb.graphviz-interactive-preview"
+  ],
+  "unwantedRecommendations": ["orta.vscode-jest"]
+}
