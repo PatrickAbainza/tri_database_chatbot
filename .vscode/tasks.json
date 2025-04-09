@@ -6,7 +6,7 @@
       "type": "shell",
       "command": "uv run python src/api.py",
       "options": {
-        "cwd": "${workspaceFolder}/templates/python-uv"
+        "cwd": "${workspaceFolder}/templates/python_uv"
       },
       "problemMatcher": [],
       "presentation": {
@@ -19,7 +19,7 @@
       "type": "shell",
       "command": "uv run pytest --cov=src --cov-report=term-missing --cov-report=xml:coverage.xml",
       "options": {
-        "cwd": "${workspaceFolder}/templates/python-uv"
+        "cwd": "${workspaceFolder}/templates/python_uv"
       },
       "group": {
         "kind": "test",
@@ -65,7 +65,7 @@
       "label": "Run Ruff Linter",
       "type": "shell",
       "command": "uv run ruff check .",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "new", "clear": true }
     },
@@ -73,7 +73,7 @@
       "label": "Run Radon Complexity Check",
       "type": "shell",
       "command": "uv run radon cc . -a -s",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "new", "clear": true }
     },
@@ -81,7 +81,7 @@
       "label": "Run Radon Maintainability Check",
       "type": "shell",
       "command": "uv run radon mi . -s",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "new", "clear": true }
     },
@@ -89,39 +89,39 @@
       "label": "Run Copydetect Duplication Check",
       "type": "shell",
       "command": "uv run copydetect .",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "new", "clear": true }
     },
     {
       "label": "Python Analysis: Ruff (JSON)",
       "type": "shell",
-      "command": "mkdir -p analysis_results && uv run ruff check . --output-format=json > analysis_results/ruff_results.json",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "command": "mkdir -p analysis_results && uv run ruff check src --output-format=json > analysis_results/ruff_results.json",
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "silent", "panel": "new", "clear": true }
     },
     {
       "label": "Python Analysis: Radon CC (JSON)",
       "type": "shell",
-      "command": "mkdir -p analysis_results && uv run radon cc . -j > analysis_results/radon_cc_results.json",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "command": "mkdir -p analysis_results && uv run radon cc src -j > analysis_results/radon_cc_results.json",
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "silent", "panel": "new", "clear": true }
     },
     {
       "label": "Python Analysis: Copydetect (HTML)",
       "type": "shell",
-      "command": "mkdir -p analysis_results && uv run copydetect -t . -o analysis_results/copydetect_report.html",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "command": "mkdir -p analysis_results && uv run copydetect -t src --noise-thresh 10 --guarantee-thresh 15 --extensions py -O analysis_results/copydetect_report.html",
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "silent", "panel": "new", "clear": true }
     },
     {
       "label": "Python Analysis: Pydeps (JSON)",
       "type": "shell",
-      "command": "mkdir -p analysis_results && uv run pydeps --json . > analysis_results/pydeps_results.json",
-      "options": { "cwd": "${workspaceFolder}/templates/python-uv" },
+      "command": "mkdir -p analysis_results && uv run python -m pydeps src/calculator.py --show-deps --pylib > analysis_results/pydeps_results.json",
+      "options": { "cwd": "${workspaceFolder}/templates/python_uv" },
       "problemMatcher": [],
       "presentation": { "reveal": "silent", "panel": "new", "clear": true }
     },
