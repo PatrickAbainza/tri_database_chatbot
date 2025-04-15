@@ -1,0 +1,22 @@
+[project]
+name = "neo4j-mock"
+version = "0.1.0"
+description = "Neo4j mock service for chatbot project"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.6.0",
+    "networkx>=3.2.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3.5", "pytest-cov", "httpx>=0.27.0", "ruff"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

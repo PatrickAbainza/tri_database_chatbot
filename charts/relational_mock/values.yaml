@@ -1,0 +1,30 @@
+replicaCount: 1
+
+image:
+  repository: your-repo/relational-mock
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP 
+  port: 8004
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  # minReplicas: 1
+  # maxReplicas: 3
+  # targetCPUUtilizationPercentage: 80
+
+config: {}
+  # Add your ConfigMap values here
+
+secrets: {}
+  # Add your Secret values here

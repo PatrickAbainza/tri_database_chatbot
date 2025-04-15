@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  chatbot_service:
+    build:
+      context: ./services/chatbot_service
+    ports:
+      - "8000:8000"
+    environment:
+      - MCP_SERVICE_URL=http://mcp_service:8001
+      - NEO4J_MOCK_URL=http://neo4j_mock:8002
+      - WEAVIATE_MOCK_URL=http://weaviate_mock:8003
+      - RELATIONAL_MOCK_URL=http://relational_mock:8004
+
+  mcp_service:
+    build:
+      context: ./services/mcp_service
+    ports:
+      - "8001:8001"
+    environment:
+      - NEO4J_MOCK_URL=http://neo4j_mock:8002
+      - WEAVIATE_MOCK_URL=http://weaviate_mock:8003
+      - RELATIONAL_MOCK_URL=http://relational_mock:8004
+
+  neo4j_mock:
+    build:
+      context: ./services/db_mocks/neo4j_mock
+    ports:
+      - "8002:8002"
+
+  weaviate_mock:
+    build:
+      context: ./services/db_mocks/weaviate_mock
+    ports:
+      - "8003:8003"
+
+  relational_mock:
+    build:
+      context: ./services/db_mocks/relational_mock
+    ports:
+      - "8004:8004"

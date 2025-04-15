@@ -105,7 +105,8 @@
   // Markdown
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "java.project.sourcePaths": ["doocs"]
 
   // Add other language-specific settings as needed
 }

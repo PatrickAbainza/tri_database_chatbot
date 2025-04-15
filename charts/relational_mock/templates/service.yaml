@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: { { include "relational-mock.fullname" . } }
+  labels: { { - include "relational-mock.labels" . | nindent 4 } }
+spec:
+  type: { { .Values.service.type } }
+  ports:
+    - port: { { .Values.service.port } }
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector: { { - include "relational-mock.selectorLabels" . | nindent 4 } }

@@ -1,0 +1,29 @@
+# Project metadata and dependencies defined according to PEP 621
+[project]
+name = "chatbot-service"
+version = "0.1.0"
+description = "FastAPI-based chatbot service"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [ # Core application dependencies
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.1",
+    "httpx>=0.27.0",             # HTTP client for MCP service communication
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.5",     # Test runner for Python (TDD)
+    "pytest-cov",        # Pytest plugin for coverage reporting
+    "pytest-asyncio",    # Pytest plugin for testing async code
+    "pre-commit>=3.7.1", # Framework for managing pre-commit hooks
+    "ruff",              # Fast Python linter and code formatter
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+asyncio_mode = "auto" # Enable async test support
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
